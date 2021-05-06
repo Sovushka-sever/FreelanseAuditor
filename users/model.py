@@ -1,3 +1,4 @@
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -9,55 +10,51 @@ class UserRoles(models.TextChoices):
 
 
 RATE_CHOICES = (
-    (5, 'excellent'),
-    (4, 'very good'),
-    (3, 'good'),
-    (2, 'not bad'),
-    (1, 'bad'),
+    (5, 'Excellent'),
+    (4, 'Very good'),
+    (3, 'Good'),
+    (2, 'Not bad'),
+    (1, 'Bad'),
 )
 
 
-class User(AbstractUser):
+class User(AbstractBaseUser):
     email = models.EmailField(
-        verbose_name='e-mail',
         unique=True
     )
+    is_staff = models.BooleanField(
+        default=False,
+    )
+    is_active = models.BooleanField(
+        default=True,
+    )
     username = models.CharField(
-        verbose_name='Имя пользователя',
         max_length=30,
         null=True,
         unique=True
     )
     bio = models.TextField(
-        verbose_name='O себе',
         max_length=500,
         blank=True,
     )
     role = models.CharField(
-        verbose_name='Роль пользователя',
         max_length=10,
         choices=UserRoles.choices,
         default=UserRoles.FREELANCER,
     )
     program_language = models.TextField(
-        verbose_name='Язык программирования',
         max_length=500,
         blank=True,
     )
-    review = models.ManyToManyField(
-        'Review',
-        related_name='reviews',
-        blank=True,
-        verbose_name='Отзыв',
-    )
     rating = models.PositiveSmallIntegerField(
-        verbose_name='Рейтинг',
         choices=RATE_CHOICES)
+
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     class Meta:
         ordering = ('username',)
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
 
     def __str__(self):
         return self.email
@@ -76,18 +73,14 @@ class Review(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='reviews',
-        verbose_name='Автор отзыва'
     )
     text = models.TextField()
     pub_date = models.DateTimeField(
-        verbose_name='Дата публикации',
         auto_now_add=True
     )
 
     class Meta:
         ordering = ('-pub_date',)
-        verbose_name = 'Отзыв'
-        verbose_name_plural = 'Отзывы'
 
     def __str__(self):
         return self.text
