@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager
 from django.db import models
 
 
@@ -28,9 +28,11 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(
         default=True,
     )
+    is_superuser = models.BooleanField(
+        default=False,
+    )
     username = models.CharField(
         max_length=30,
-        null=True,
         unique=True
     )
     bio = models.TextField(
@@ -47,11 +49,13 @@ class User(AbstractBaseUser):
         blank=True,
     )
     rating = models.PositiveSmallIntegerField(
-        choices=RATE_CHOICES)
+        choices=RATE_CHOICES, default=1)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
+
+    objects = UserManager()
 
     class Meta:
         ordering = ('username',)
