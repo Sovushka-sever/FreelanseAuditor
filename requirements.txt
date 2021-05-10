@@ -1,3 +1,5 @@
 requests == 2.25.1
 django == 3.2.1
 djangorestframework == 3.12.4
+djangorestframework-simplejwt == 4.6.0
+pillow == 8.2.0

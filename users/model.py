@@ -49,11 +49,18 @@ class User(AbstractBaseUser):
         blank=True,
     )
     rating = models.PositiveSmallIntegerField(
-        choices=RATE_CHOICES, default=1)
+        choices=RATE_CHOICES,
+        default=1
+    )
+    avatar = models.ImageField(
+        upload_to='users/',
+        null=True,
+        blank=True
+    )
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ('email',)
 
     objects = UserManager()
 

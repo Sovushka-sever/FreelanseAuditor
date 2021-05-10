@@ -7,6 +7,7 @@ STATUS_TASK_CHOICES = (
     ('open', 'Open'),
     ('close', 'Close'),
     ('progress', 'In progress'),
+    ('planned', 'Planned')
 )
 
 
