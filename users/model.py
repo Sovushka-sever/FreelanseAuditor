@@ -18,6 +18,10 @@ RATE_CHOICES = (
 )
 
 
+def user_directory_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
 class User(AbstractBaseUser):
     email = models.EmailField(
         unique=True
@@ -53,7 +57,7 @@ class User(AbstractBaseUser):
         default=1
     )
     avatar = models.ImageField(
-        upload_to='users/',
+        upload_to=user_directory_path,
         null=True,
         blank=True
     )

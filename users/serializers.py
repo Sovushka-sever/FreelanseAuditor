@@ -17,7 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         required=True,
         validators=[validate_password]
     )
-    password2 = serializers.CharField(
+    repeated_password = serializers.CharField(
         write_only=True,
         required=True
     )
