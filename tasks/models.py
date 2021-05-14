@@ -33,6 +33,8 @@ class Task(models.Model):
     responsable = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        null=True,
+        default=None,
         related_name='freelanse_task',
     )
     status = models.CharField(
